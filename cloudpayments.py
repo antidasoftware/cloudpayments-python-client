@@ -274,7 +274,7 @@ class CloudPayments(object):
         raise CloudPaymentsError(response)
 
     def cancel_subscription(self, subscription_id):
-        params = {'SubscriptionId': subscription_id}
+        params = {'Id': subscription_id}
 
         response = self._send_request('subscriptions/cancel', params)
 
