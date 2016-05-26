@@ -247,7 +247,7 @@ class CloudPayments(object):
                             description=None, start_date=None, interval=None,
                             period=None, require_confirmation=None,
                             max_periods=None):
-        params  = {
+        params = {
             'Id': subscription_id
         }
         if description is not None:
@@ -314,5 +314,3 @@ class CloudPayments(object):
         if response['Success']:
             return response['Model']
         raise CloudPaymentsError(response)
-
-
