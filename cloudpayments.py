@@ -11,7 +11,25 @@ class Currency(object):
 
 
 class CloudPaymentsError(Exception):
-    pass
+    def __init__(self, response, message=None):
+        self.response = response
+        super(CloudPaymentsError, self).__init__(message or
+                                                 response.get('Message'))
+
+
+class Secure3dAuthenticationRequiredException(CloudPaymentsError):
+    def __init__(self, response):
+        self.transaction_id = response['Model']['TransactionId']
+        self.pa_req = response['Model']['PaReq']
+        super(Secure3dAuthenticationRequiredException, self).__init__(response)
+
+
+class PaymentError(CloudPaymentsError):
+    def __init__(self, response):
+        self.reason = response['Model']['Reason']
+        self.reason_code = response['Model']['ReasonCode']
+        super(PaymentError, self).__init__(response)
+
 
 
 class CloudPayments(object):
@@ -23,14 +41,13 @@ class CloudPayments(object):
 
     def _send_request(self, endpoint, params=None):
         auth = HTTPBasicAuth(self.public_id, self.api_secret)
-        response = requests.post(self.URL + endpoint,
-                                 data=params, auth=auth).json()
-        if not response['Success']:
-            raise CloudPaymentsError(response['Message'])
-        return response.get('Model')
+        response = requests.post(self.URL + endpoint, data=params, auth=auth)
+        return response.json()
 
     def test(self):
-        return self._send_request('test')
+        response = self._send_request('test')
+        if not response['Success']:
+            raise CloudPaymentsError(response)
 
     def charge_card(self, cryptogram, amount, currency, name, ip_address,
                     invoice_id=None, description=None, account_id=None,
@@ -52,14 +69,28 @@ class CloudPayments(object):
             params['Email'] = email
         if data is not None:
             params['JsonData'] = json.dumps(data)
-        return self._send_request('payments/cards/charge', params)
+
+        response = self._send_request('payments/cards/charge', params)
+
+        if response['Success']:
+            return response['Model']
+        if response['Message']:
+            raise CloudPaymentsError(response)
+        if 'ReasonCode' in response['Model']:
+            raise PaymentError(response)
+        raise Secure3dAuthenticationRequiredException(response)
 
     def finish_3d_secure(self, transaction_id, pa_res):
         params = {
             'TransactionId': transaction_id,
             'PaRes': pa_res
         }
-        return self._send_request('payments/cards/post3ds', params)
+        response = self._send_request('payments/cards/post3ds', params)
+
+        if response['Success']:
+            return response['Model']
+
+        raise CloudPaymentsError(response)
 
     def charge_token(self, account_id, token, amount, currency,
                      ip_address=None, invoice_id=None, description=None,
@@ -80,4 +111,11 @@ class CloudPayments(object):
             params['Email'] = email
         if data is not None:
             params['JsonData'] = json.dumps(data)
-        return self._send_request('payments/tokens/charge', params)
+
+        response = self._send_request('payments/tokens/charge', params)
+
+        if response['Success']:
+            return response['Model']
+        if 'Model' in response and 'ReasonCode' in response['Model']:
+            raise PaymentError(response)
+        raise CloudPaymentsError(response)
