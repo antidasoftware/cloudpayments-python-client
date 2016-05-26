@@ -2,76 +2,8 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 
-
-class Currency(object):
-    RUB = 'RUB'
-    USD = 'USD'
-    EUR = 'EUR'
-    GBP = 'GBP'
-
-
-class Interval(object):
-    WEEK = 'Week'
-    MONTH = 'Month'
-
-
-class Timezone(object):
-    HST = 'HST'
-    AKST = 'AKST'
-    PST = 'PST'
-    MST = 'MST'
-    CST = 'CST'
-    EST = 'EST'
-    AST = 'AST'
-    BRT = 'BRT'
-    UTC = 'UTC'
-    GMT = 'GMT'
-    CET = 'CET'
-    EET = 'EET'
-    MSK = 'MSK'
-    AZT = 'AZT'
-    AMT = 'AMT'
-    SAMT = 'SAMT'
-    GET = 'GET'
-    TJT = 'TJT'
-    YEKT = 'YEKT'
-    ALMT = 'ALMT'
-    NOVT = 'NOVT'
-    KRAT = 'KRAT'
-    HKT = 'HKT'
-    IRKT = 'IRKT'
-    SGT = 'SGT'
-    ULAT = 'ULAT'
-    YAKT = 'YAKT'
-    VLAT = 'VLAT'
-    SAKT = 'SAKT'
-    ANAT = 'ANAT'
-
-
-class CultureInfo(object):
-    RU_RU = 'ru-RU'
-    EN_US = 'en-US'
-
-
-class CloudPaymentsError(Exception):
-    def __init__(self, response, message=None):
-        self.response = response
-        super(CloudPaymentsError, self).__init__(message or
-                                                 response.get('Message'))
-
-
-class Secure3dAuthenticationRequiredException(CloudPaymentsError):
-    def __init__(self, response):
-        self.transaction_id = response['Model']['TransactionId']
-        self.pa_req = response['Model']['PaReq']
-        super(Secure3dAuthenticationRequiredException, self).__init__(response)
-
-
-class PaymentError(CloudPaymentsError):
-    def __init__(self, response):
-        self.reason = response['Model']['Reason']
-        self.reason_code = response['Model']['ReasonCode']
-        super(PaymentError, self).__init__(response, self.reason)
+from .errors import CloudPaymentsError, \
+    Secure3dAuthenticationRequiredException, PaymentError
 
 
 class CloudPayments(object):
