@@ -51,7 +51,7 @@ class CloudPayments(object):
 
     def charge_card(self, cryptogram, amount, currency, name, ip_address,
                     invoice_id=None, description=None, account_id=None,
-                    email=None, data=None):
+                    email=None, data=None, with_auth=False):
         params = {
             'Amount': amount,
             'Currency': currency,
@@ -70,7 +70,9 @@ class CloudPayments(object):
         if data is not None:
             params['JsonData'] = json.dumps(data)
 
-        response = self._send_request('payments/cards/charge', params)
+        endpoint = ('payments/cards/auth' if with_auth else
+                    'payments/cards/charge')
+        response = self._send_request(endpoint, params)
 
         if response['Success']:
             return response['Model']
@@ -94,7 +96,7 @@ class CloudPayments(object):
 
     def charge_token(self, token, account_id, amount, currency,
                      ip_address=None, invoice_id=None, description=None,
-                     email=None, data=None):
+                     email=None, data=None, with_auth=False):
         params = {
             'Amount': amount,
             'Currency': currency,
@@ -112,13 +114,32 @@ class CloudPayments(object):
         if data is not None:
             params['JsonData'] = json.dumps(data)
 
-        response = self._send_request('payments/tokens/charge', params)
+        endpoint = ('payments/tokens/auth' if with_auth else
+                    'payments/tokens/charge')
+        response = self._send_request(endpoint, params)
 
         if response['Success']:
             return response['Model']
         if 'Model' in response and 'ReasonCode' in response['Model']:
             raise PaymentError(response)
         raise CloudPaymentsError(response)
+
+    def confirm_payment(self, transaction_id, amount):
+        params = {
+            'Amount': amount,
+            'TransactionId': transaction_id
+        }
+        response = self._send_request('payments/confirm', params)
+
+        if not response['Success']:
+            raise CloudPaymentsError(response)
+
+    def void_payment(self, transaction_id):
+        params = {'TransactionId': transaction_id}
+        response = self._send_request('payments/void', params)
+
+        if not response['Success']:
+            raise CloudPaymentsError(response)
 
     def create_subscription(self, token, account_id, amount, currency,
                             description, email, start_date, interval, period,
