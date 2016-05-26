@@ -93,7 +93,7 @@ class CloudPayments(object):
 
     def charge_card(self, cryptogram, amount, currency, name, ip_address,
                     invoice_id=None, description=None, account_id=None,
-                    email=None, data=None, with_auth=False):
+                    email=None, data=None, require_confirmation=False):
         params = {
             'Amount': amount,
             'Currency': currency,
@@ -112,7 +112,7 @@ class CloudPayments(object):
         if data is not None:
             params['JsonData'] = json.dumps(data)
 
-        endpoint = ('payments/cards/auth' if with_auth else
+        endpoint = ('payments/cards/auth' if require_confirmation else
                     'payments/cards/charge')
         response = self._send_request(endpoint, params)
 
@@ -137,7 +137,7 @@ class CloudPayments(object):
 
     def charge_token(self, token, account_id, amount, currency,
                      ip_address=None, invoice_id=None, description=None,
-                     email=None, data=None, with_auth=False):
+                     email=None, data=None, require_confirmation=False):
         params = {
             'Amount': amount,
             'Currency': currency,
@@ -155,7 +155,7 @@ class CloudPayments(object):
         if data is not None:
             params['JsonData'] = json.dumps(data)
 
-        endpoint = ('payments/tokens/auth' if with_auth else
+        endpoint = ('payments/tokens/auth' if require_confirmation else
                     'payments/tokens/charge')
         response = self._send_request(endpoint, params)
 
