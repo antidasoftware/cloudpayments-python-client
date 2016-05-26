@@ -225,6 +225,14 @@ class CloudPayments(object):
             return response['Model']
         raise CloudPaymentsError(response)
 
+    def get_subscription(self, subscription_id):
+        params = {'Id': subscription_id}
+        response = self._send_request('subscriptions/get', params)
+
+        if response['Success']:
+            return response['Model']
+        raise CloudPaymentsError(response)
+
     def update_subscription(self, subscription_id, amount=None, currency=None,
                             description=None, start_date=None, interval=None,
                             period=None, require_confirmation=None,
