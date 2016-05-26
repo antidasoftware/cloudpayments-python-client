@@ -10,6 +10,39 @@ class Currency(object):
     GBP = 'GBP'
 
 
+class Timezone(object):
+    HST = 'HST'
+    AKST = 'AKST'
+    PST = 'PST'
+    MST = 'MST'
+    CST = 'CST'
+    EST = 'EST'
+    AST = 'AST'
+    BRT = 'BRT'
+    UTC = 'UTC'
+    GMT = 'GMT'
+    CET = 'CET'
+    EET = 'EET'
+    MSK = 'MSK'
+    AZT = 'AZT'
+    AMT = 'AMT'
+    SAMT = 'SAMT'
+    GET = 'GET'
+    TJT = 'TJT'
+    YEKT = 'YEKT'
+    ALMT = 'ALMT'
+    NOVT = 'NOVT'
+    KRAT = 'KRAT'
+    HKT = 'HKT'
+    IRKT = 'IRKT'
+    SGT = 'SGT'
+    ULAT = 'ULAT'
+    YAKT = 'YAKT'
+    VLAT = 'VLAT'
+    SAKT = 'SAKT'
+    ANAT = 'ANAT'
+
+
 class CloudPaymentsError(Exception):
     def __init__(self, response, message=None):
         self.response = response
@@ -29,7 +62,6 @@ class PaymentError(CloudPaymentsError):
         self.reason = response['Model']['Reason']
         self.reason_code = response['Model']['ReasonCode']
         super(PaymentError, self).__init__(response)
-
 
 
 class CloudPayments(object):
@@ -91,7 +123,6 @@ class CloudPayments(object):
 
         if response['Success']:
             return response['Model']
-
         raise CloudPaymentsError(response)
 
     def charge_token(self, token, account_id, amount, currency,
@@ -151,6 +182,24 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
 
+    def find_payment(self, invoice_id):
+        params = {'InvoiceId': invoice_id}
+        response = self._send_request('payments/find', params)
+
+        if response['Success']:
+            return response['Model']
+        raise CloudPaymentsError(response)
+
+    def list_payments(self, date, timezone=None):
+        params = {'Date': date.isoformat()}
+        if timezone is not None:
+            params['Timezone'] = timezone
+
+        response = self._send_request('payments/list', params)
+
+        if response['Success']:
+            return response['Model']
+        raise CloudPaymentsError(response)
 
     def create_subscription(self, token, account_id, amount, currency,
                             description, email, start_date, interval, period,
