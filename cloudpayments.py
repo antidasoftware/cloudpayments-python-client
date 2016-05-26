@@ -141,6 +141,17 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
 
+    def refund(self, transaction_id, amount):
+        params = {
+            'Amount': amount,
+            'TransactionId': transaction_id
+        }
+        response = self._send_request('payments/refund', params)
+
+        if not response['Success']:
+            raise CloudPaymentsError(response)
+
+
     def create_subscription(self, token, account_id, amount, currency,
                             description, email, start_date, interval, period,
                             require_confirmation=False, max_periods=None):
