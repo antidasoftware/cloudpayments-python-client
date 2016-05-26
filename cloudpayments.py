@@ -10,6 +10,11 @@ class Currency(object):
     GBP = 'GBP'
 
 
+class Interval(object):
+    WEEK = 'Week'
+    MONTH = 'Month'
+
+
 class Timezone(object):
     HST = 'HST'
     AKST = 'AKST'
@@ -41,6 +46,11 @@ class Timezone(object):
     VLAT = 'VLAT'
     SAKT = 'SAKT'
     ANAT = 'ANAT'
+
+
+class CultureInfo(object):
+    RU_RU = 'ru-RU'
+    EN_US = 'en-US'
 
 
 class CloudPaymentsError(Exception):
@@ -270,4 +280,39 @@ class CloudPayments(object):
 
         if not response['Success']:
             raise CloudPaymentsError(response)
+
+    def create_order(self, amount, currency, description, email=None,
+                     send_email=None, require_confirmation=None,
+                     invoice_id=None, account_id=None, phone=None,
+                     send_sms=None, send_whatsapp=None, culture_info=None):
+        params = {
+            'Amount': amount,
+            'Currency': currency,
+            'Description': description,
+        }
+        if email is not None:
+            params['Email'] = email
+        if require_confirmation is not None:
+            params['RequireConfirmation'] = require_confirmation
+        if send_email is not None:
+            params['SendEmail'] = send_email
+        if invoice_id is not None:
+            params['InvoiceId'] = invoice_id
+        if account_id is not None:
+            params['AccountId'] = account_id
+        if phone is not None:
+            params['Phone'] = phone
+        if send_sms is not None:
+            params['SendSms'] = send_sms
+        if send_whatsapp is not None:
+            params['SendWhatsApp'] = send_whatsapp
+        if culture_info is not None:
+            params['CultureInfo'] = culture_info
+
+        response = self._send_request('orders/create', params)
+
+        if response['Success']:
+            return response['Model']
+        raise CloudPaymentsError(response)
+
 
