@@ -71,7 +71,7 @@ class PaymentError(CloudPaymentsError):
     def __init__(self, response):
         self.reason = response['Model']['Reason']
         self.reason_code = response['Model']['ReasonCode']
-        super(PaymentError, self).__init__(response)
+        super(PaymentError, self).__init__(response, self.reason)
 
 
 class CloudPayments(object):
