@@ -80,7 +80,7 @@ class CloudPayments(object):
             raise PaymentError(response)
         raise Secure3dAuthenticationRequiredException(response)
 
-    def finish_3d_secure(self, transaction_id, pa_res):
+    def finish_3d_secure_authentication(self, transaction_id, pa_res):
         params = {
             'TransactionId': transaction_id,
             'PaRes': pa_res
