@@ -48,7 +48,11 @@ Python 2.7
                 invoice_id=None, description=None, account_id=None,
                 email=None, data=None, require_confirmation=False)
 
-Если значение параметра ``require_confirmation`` установлено в ``True``, платеж будет выполняться по двухстадийной схеме.
+``timezone`` — одна из констант, определенных в классе ``Currency``
+
+``data`` — произвольные данные, при отправке будут сериализованы в JSON.
+
+``require_confirmation`` — если установлено в ``True``, платеж будет выполняться по двухстадийной схеме.
 
 В случае успеха возвращает объект типа ``Transaction`` (если не требуется 3-D Secure аутентификация) либо ``Secure3d`` (если требуется).
 
@@ -70,7 +74,11 @@ Python 2.7
                  ip_address=None, invoice_id=None, description=None,
                  email=None, data=None, require_confirmation=False)
 
-Если значение параметра ``require_confirmation`` установлено в ``True``, платеж будет выполняться по двухстадийной схеме.
+``timezone`` — одна из констант, определенных в классе ``Currency``
+
+``data`` — произвольные данные, при отправке будут сериализованы в JSON.
+
+``require_confirmation`` — если установлено в ``True``, платеж будет выполняться по двухстадийной схеме.
 
 В случае успеха возвращает объект типа ``Transaction``.
 
@@ -117,6 +125,10 @@ Python 2.7
 
     list_payments(self, date, timezone=None)
 
+``date`` — объект типа ``datetime.date``.
+
+``timezone`` — одна из констант, определенных в классе ``Timezone``.
+
 В случае успеха возвращает список объектов типа ``Transaction``.
 
 
@@ -127,6 +139,12 @@ Python 2.7
     create_subscription(self, token, account_id, amount, currency,
                         description, email, start_date, interval, period,
                         require_confirmation=False, max_periods=None)
+
+``currency`` — одна из констант, определенных в классе ``Timezone``.
+
+``start_date`` — объект типа ``datetime.datetime``.
+
+``interval`` — одна из констант, определенных в классе ``Interval``.
 
 В случае успеха возвращает объект типа ``Subscription``.
 
@@ -149,6 +167,12 @@ Python 2.7
                         period=None, require_confirmation=None,
                         max_periods=None)
 
+``currency`` — одна из констант, определенных в классе ``Timezone``.
+
+``start_date`` — объект типа ``datetime.datetime``.
+
+``interval`` — одна из констант, определенных в классе ``Interval``.
+
 В случае успеха возвращает объект типа ``Subscription``.
 
 
@@ -166,9 +190,13 @@ Python 2.7
 .. code:: python
 
     create_order(self, amount, currency, description, email=None,
-                     send_email=None, require_confirmation=None,
-                     invoice_id=None, account_id=None, phone=None,
-                     send_sms=None, send_whatsapp=None, culture_info=None)
+                 send_email=None, require_confirmation=None,
+                 invoice_id=None, account_id=None, phone=None,
+                 send_sms=None, send_whatsapp=None, culture_info=None)
+
+``currency`` — одна из констант, определенных в классе ``Timezone``.
+
+``culture_info`` — одна из констант, определенных в классе ``CultureInfo``.
 
 В случае успеха возвращает объект типа ``Order``.
 
