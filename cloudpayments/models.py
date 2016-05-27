@@ -8,7 +8,17 @@ def parse_datetime(s):
     return datetime.strptime(s, '%Y-%m-%dT%H:%M:%S').replace(tzinfo=pytz.utc)
 
 
-class Transaction(object):
+class Model(object):
+    @classmethod
+    def from_dict(cls, model_dict):
+        raise NotImplementedError
+
+    def __repr__(self):
+        state = ['%s=%s' % (k, repr(v)) for (k, v) in vars(self).items()]
+        return '%s(%s)' % (self.__class__.__name__, ', '.join(state))
+
+
+class Transaction(Model):
     def __init__(self, id, amount, currency, currency_code, invoice_id,
                  account_id, email, description, data, created_date,
                  auth_date, confirm_date, auth_code, test_mode, ip_address,
@@ -17,6 +27,7 @@ class Transaction(object):
                  card_type, card_type_code, issuer, issuer_bank_country,
                  status, status_code, reason, reason_code, cardholder_message,
                  name, token):
+        super(Transaction, self).__init__()
         self.id = id
         self.amount = amount
         self.currency = currency
@@ -96,8 +107,9 @@ class Transaction(object):
                    transaction_dict['Token'])
 
 
-class Secure3d(object):
+class Secure3d(Model):
     def __init__(self, transaction_id, pa_req, acs_url):
+        super(Secure3d, self).__init__()
         self.transaction_id = transaction_id
         self.pa_req = pa_req
         self.acs_url = acs_url
@@ -118,13 +130,14 @@ class Secure3d(object):
                    secure3d_dict['AcsUrl'])
 
 
-class Subscription(object):
+class Subscription(Model):
     def __init__(self, id, account_id, description, email, amount,
                  currency_code, currency, require_confirmation, start_date,
                  interval_code, interval, period, max_periods, status_code,
                  status, successful_transactions_number,
                  failed_transactions_number, last_transaction_date,
                  next_transaction_date):
+        super(Subscription, self).__init__()
         self.id = id
         self.account_id = account_id
         self.description = description
@@ -168,9 +181,10 @@ class Subscription(object):
                    parse_datetime(subscription_dict['NextTransactionDateIso']))
 
 
-class Order(object):
+class Order(Model):
     def __init__(self, id, number, amount, currency, currency_code, email,
                  description, require_confirmation, url):
+        super(Order, self).__init__()
         self.id = id
         self.number = number
         self.amount = amount
