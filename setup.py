@@ -24,8 +24,8 @@ setup(
     ],
 
     install_requires = [
-        'requests (>=2.9.1)',
-        'pytz (>=2015.7)'
+        'requests >=2.9.1',
+        'pytz >=2015.7'
     ],
 
     classifiers=[
