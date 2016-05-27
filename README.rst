@@ -11,10 +11,12 @@ CloudPayments Python Client Library
 
     pip install cloudpayments
 
+
 Требования
 ==========
 
-Python 2.7
+Python 2.6+ или 3+
+
 
 Использование
 =============
