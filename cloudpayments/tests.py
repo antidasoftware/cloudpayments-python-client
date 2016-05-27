@@ -5,8 +5,9 @@ from unittest import TestCase
 
 import pytz
 
-from .models import parse_datetime, Transaction, Secure3d
-from .enums import Currency, TransactionStatus, ReasonCode
+from .models import parse_datetime, Transaction, Secure3d, Subscription
+from .enums import Currency, TransactionStatus, ReasonCode, Interval, \
+    SubscriptionStatus
 
 
 class ParseDateTimeTest(TestCase):
@@ -125,5 +126,56 @@ class Secure3dTest(TestCase):
             'https://test.paymentgate.ru/acs/auth/start.do?MD=111&PaReq=asdas'
             '&TermUrl=http://example.com'
         )
+
+
+class SubscriptionTest(TestCase):
+    def test_reads_subscription_from_dict(self):
+        model = json.loads(u'''{
+            "Id":"sc_8cf8a9338fb8ebf7202b08d09c938",
+            "AccountId":"user@example.com",
+            "Description":"Ежемесячная подписка на сервис example.com",
+            "Email":"user@example.com",
+            "Amount":1.02,
+            "CurrencyCode":0,
+            "Currency":"RUB",
+            "RequireConfirmation":false,
+            "StartDate":"\/Date(1407343589537)\/",
+            "StartDateIso":"2014-08-09T11:49:41",
+            "IntervalCode":1,
+            "Interval":"Month",
+            "Period":1,
+            "MaxPeriods":null,
+            "StatusCode":0,
+            "Status":"Active",
+            "SuccessfulTransactionsNumber":0,
+            "FailedTransactionsNumber":0,
+            "LastTransactionDate":null,
+            "LastTransactionDateIso":null,
+            "NextTransactionDate":"\/Date(1407343589537)\/",
+            "NextTransactionDateIso":"2014-08-09T11:49:41"
+        }''')
+        subscription = Subscription.from_dict(model)
+        self.assertEqual(subscription.id, 'sc_8cf8a9338fb8ebf7202b08d09c938')
+        self.assertEqual(subscription.account_id, 'user@example.com')
+        self.assertEqual(subscription.description,
+                         u'Ежемесячная подписка на сервис example.com')
+        self.assertEqual(subscription.email, 'user@example.com')
+        self.assertEqual(subscription.amount, 1.02)
+        self.assertEqual(subscription.currency_code, 0)
+        self.assertEqual(subscription.currency, Currency.RUB)
+        self.assertFalse(subscription.require_confirmation)
+        self.assertEqual(subscription.start_date,
+                         datetime(2014, 8, 9, 11, 49, 41, tzinfo=pytz.utc))
+        self.assertEqual(subscription.interval_code, 1)
+        self.assertEqual(subscription.interval, Interval.MONTH)
+        self.assertEqual(subscription.period, 1)
+        self.assertIsNone(subscription.max_periods)
+        self.assertEqual(subscription.status_code, 0)
+        self.assertEqual(subscription.status, SubscriptionStatus.ACTIVE)
+        self.assertEqual(subscription.successful_transactions_number, 0)
+        self.assertEqual(subscription.failed_transactions_number, 0)
+        self.assertIsNone(subscription.last_transaction_date)
+        self.assertEqual(subscription.next_transaction_date,
+                         datetime(2014, 8, 9, 11, 49, 41, tzinfo=pytz.utc))
 
 

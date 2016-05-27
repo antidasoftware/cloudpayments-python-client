@@ -3,6 +3,8 @@ import pytz
 
 
 def parse_datetime(s):
+    if not s:
+        return None
     return datetime.strptime(s, '%Y-%m-%dT%H:%M:%S').replace(tzinfo=pytz.utc)
 
 
@@ -87,8 +89,7 @@ class Transaction(object):
                    transaction_dict['ReasonCode'],
                    transaction_dict['CardHolderMessage'],
                    transaction_dict['Name'],
-                   transaction_dict['Token']
-        )
+                   transaction_dict['Token'])
 
 
 class Secure3d(object):
@@ -106,5 +107,54 @@ class Secure3d(object):
     def from_dict(cls, secure3d_dict):
         return cls(secure3d_dict['TransactionId'],
                    secure3d_dict['PaReq'],
-                   secure3d_dict['AcsUrl']
-        )
+                   secure3d_dict['AcsUrl'])
+
+
+class Subscription(object):
+    def __init__(self, id, account_id, description, email, amount,
+                 currency_code, currency, require_confirmation, start_date,
+                 interval_code, interval, period, max_periods, status_code,
+                 status, successful_transactions_number,
+                 failed_transactions_number, last_transaction_date,
+                 next_transaction_date):
+        self.id = id
+        self.account_id = account_id
+        self.description = description
+        self.email = email
+        self.amount = amount
+        self.currency_code = currency_code
+        self.currency = currency
+        self.require_confirmation = require_confirmation
+        self.start_date = start_date
+        self.interval_code = interval_code
+        self.interval = interval
+        self.period = period
+        self.max_periods = max_periods
+        self.status_code = status_code
+        self.status = status
+        self.successful_transactions_number = successful_transactions_number
+        self.failed_transactions_number = failed_transactions_number
+        self.last_transaction_date = last_transaction_date
+        self.next_transaction_date = next_transaction_date
+
+    @classmethod
+    def from_dict(cls, subscription_dict):
+        return cls(subscription_dict['Id'],
+                   subscription_dict['AccountId'],
+                   subscription_dict['Description'],
+                   subscription_dict['Email'],
+                   subscription_dict['Amount'],
+                   subscription_dict['CurrencyCode'],
+                   subscription_dict['Currency'],
+                   subscription_dict['RequireConfirmation'],
+                   parse_datetime(subscription_dict['StartDateIso']),
+                   subscription_dict['IntervalCode'],
+                   subscription_dict['Interval'],
+                   subscription_dict['Period'],
+                   subscription_dict['MaxPeriods'],
+                   subscription_dict['StatusCode'],
+                   subscription_dict['Status'],
+                   subscription_dict['SuccessfulTransactionsNumber'],
+                   subscription_dict['FailedTransactionsNumber'],
+                   parse_datetime(subscription_dict['LastTransactionDateIso']),
+                   parse_datetime(subscription_dict['NextTransactionDateIso']))
