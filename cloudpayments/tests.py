@@ -5,7 +5,7 @@ from unittest import TestCase
 
 import pytz
 
-from .models import parse_datetime, Transaction, Secure3d, Subscription
+from .models import parse_datetime, Transaction, Secure3d, Subscription, Order
 from .enums import Currency, TransactionStatus, ReasonCode, Interval, \
     SubscriptionStatus
 
@@ -179,3 +179,28 @@ class SubscriptionTest(TestCase):
                          datetime(2014, 8, 9, 11, 49, 41, tzinfo=pytz.utc))
 
 
+class OrderTest(TestCase):
+    def test_reads_order_from_dict(self):
+        model = json.loads('''{
+            "Id":"f2K8LV6reGE9WBFn",
+            "Number":61,
+            "Amount":10.0,
+            "Currency":"RUB",
+            "CurrencyCode":0,
+            "Email":"client@test.local",
+            "Description":"Оплата на сайте example.com",
+            "RequireConfirmation":true,
+            "Url":"https://orders.cloudpayments.ru/d/f2K8LV6reGE9WBFn"
+        }''')
+        order = Order.from_dict(model)
+
+        self.assertEqual(order.id, 'f2K8LV6reGE9WBFn')
+        self.assertEqual(order.number, 61)
+        self.assertEqual(order.amount, 10.0)
+        self.assertEqual(order.currency, Currency.RUB)
+        self.assertEqual(order.currency_code, 0)
+        self.assertEqual(order.email, 'client@test.local')
+        self.assertEqual(order.description, u'Оплата на сайте example.com')
+        self.assertTrue(order.require_confirmation)
+        self.assertEqual(order.url,
+                         u'https://orders.cloudpayments.ru/d/f2K8LV6reGE9WBFn')

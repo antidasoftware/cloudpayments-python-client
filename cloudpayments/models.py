@@ -158,3 +158,29 @@ class Subscription(object):
                    subscription_dict['FailedTransactionsNumber'],
                    parse_datetime(subscription_dict['LastTransactionDateIso']),
                    parse_datetime(subscription_dict['NextTransactionDateIso']))
+
+
+class Order(object):
+    def __init__(self, id, number, amount, currency, currency_code, email,
+                 description, require_confirmation, url):
+        self.id = id
+        self.number = number
+        self.amount = amount
+        self.currency = currency
+        self.currency_code = currency_code
+        self.email = email
+        self.description = description
+        self.require_confirmation = require_confirmation
+        self.url = url
+
+    @classmethod
+    def from_dict(cls, order_dict):
+        return cls(order_dict['Id'],
+                   order_dict['Number'],
+                   order_dict['Amount'],
+                   order_dict['Currency'],
+                   order_dict['CurrencyCode'],
+                   order_dict['Email'],
+                   order_dict['Description'],
+                   order_dict['RequireConfirmation'],
+                   order_dict['Url'])
