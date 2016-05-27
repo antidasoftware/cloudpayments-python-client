@@ -45,7 +45,7 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Topic :: Office/Business',
-        'Topic :: Office/Business :: Financial'
+        'Topic :: Office/Business :: Financial',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
 )
