@@ -53,6 +53,10 @@ class Transaction(object):
         self.name = name
         self.token = token
 
+    @property
+    def secure3d_required(self):
+        return False
+
     @classmethod
     def from_dict(cls, transaction_dict):
         return cls(transaction_dict['TransactionId'],
@@ -97,6 +101,10 @@ class Secure3d(object):
         self.transaction_id = transaction_id
         self.pa_req = pa_req
         self.acs_url = acs_url
+
+    @property
+    def secure3d_required(self):
+        return False
 
     def redirect_url(self, term_url):
         return '%s?MD=%s&PaReq=%s&TermUrl=%s' % (

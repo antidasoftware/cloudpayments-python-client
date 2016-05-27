@@ -5,13 +5,6 @@ class CloudPaymentsError(Exception):
                                                  response.get('Message'))
 
 
-class Secure3dAuthenticationRequiredException(CloudPaymentsError):
-    def __init__(self, response):
-        self.transaction_id = response['Model']['TransactionId']
-        self.pa_req = response['Model']['PaReq']
-        super(Secure3dAuthenticationRequiredException, self).__init__(response)
-
-
 class PaymentError(CloudPaymentsError):
     def __init__(self, response):
         self.reason = response['Model']['Reason']

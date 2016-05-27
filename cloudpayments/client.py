@@ -3,8 +3,8 @@ import json
 import requests
 from requests.auth import HTTPBasicAuth
 
-from .errors import CloudPaymentsError, \
-    Secure3dAuthenticationRequiredException, PaymentError
+from .errors import CloudPaymentsError,  PaymentError
+from .models import Transaction, Secure3d, Subscription, Order
 
 
 class CloudPayments(object):
@@ -50,12 +50,12 @@ class CloudPayments(object):
         response = self._send_request(endpoint, params)
 
         if response['Success']:
-            return response['Model']
+            return Transaction.from_dict(response['Model'])
         if response['Message']:
             raise CloudPaymentsError(response)
         if 'ReasonCode' in response['Model']:
             raise PaymentError(response)
-        raise Secure3dAuthenticationRequiredException(response)
+        raise Secure3d.from_dict(response['Model'])
 
     def finish_3d_secure_authentication(self, transaction_id, pa_res):
         params = {
@@ -65,7 +65,7 @@ class CloudPayments(object):
         response = self._send_request('payments/cards/post3ds', params)
 
         if response['Success']:
-            return response['Model']
+            return Transaction.from_dict(response['Model'])
         raise CloudPaymentsError(response)
 
     def charge_token(self, token, account_id, amount, currency,
@@ -93,7 +93,7 @@ class CloudPayments(object):
         response = self._send_request(endpoint, params)
 
         if response['Success']:
-            return response['Model']
+            return Transaction.from_dict(response['Model'])
         if 'Model' in response and 'ReasonCode' in response['Model']:
             raise PaymentError(response)
         raise CloudPaymentsError(response)
@@ -130,7 +130,7 @@ class CloudPayments(object):
         response = self._send_request('payments/find', params)
 
         if response['Success']:
-            return response['Model']
+            return Transaction.from_dict(response['Model'])
         raise CloudPaymentsError(response)
 
     def list_payments(self, date, timezone=None):
@@ -141,7 +141,7 @@ class CloudPayments(object):
         response = self._send_request('payments/list', params)
 
         if response['Success']:
-            return response['Model']
+            return map(Transaction.from_dict, response['Model'])
         raise CloudPaymentsError(response)
 
     def create_subscription(self, token, account_id, amount, currency,
@@ -165,7 +165,7 @@ class CloudPayments(object):
         response = self._send_request('subscriptions/create', params)
 
         if response['Success']:
-            return response['Model']
+            return Subscription.from_dict(response['Model'])
         raise CloudPaymentsError(response)
 
     def get_subscription(self, subscription_id):
@@ -173,7 +173,7 @@ class CloudPayments(object):
         response = self._send_request('subscriptions/get', params)
 
         if response['Success']:
-            return response['Model']
+            return Subscription.from_dict(response['Model'])
         raise CloudPaymentsError(response)
 
     def update_subscription(self, subscription_id, amount=None, currency=None,
@@ -203,7 +203,7 @@ class CloudPayments(object):
         response = self._send_request('subscriptions/update', params)
 
         if response['Success']:
-            return response['Model']
+            return Subscription.from_dict(response['Model'])
         raise CloudPaymentsError(response)
 
     def cancel_subscription(self, subscription_id):
@@ -245,5 +245,5 @@ class CloudPayments(object):
         response = self._send_request('orders/create', params)
 
         if response['Success']:
-            return response['Model']
+            return Order.from_dict(response['Model'])
         raise CloudPaymentsError(response)
