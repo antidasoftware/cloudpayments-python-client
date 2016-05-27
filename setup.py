@@ -11,7 +11,7 @@ setup(
 
     version = VERSION,
 
-    author = 'Antida Software',
+    author = 'Antida software',
     author_email = 'info@antidasoftware',
     license = 'MIT license',
 
