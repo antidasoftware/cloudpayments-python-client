@@ -5,7 +5,7 @@ from unittest import TestCase
 
 import pytz
 
-from .models import parse_datetime, Transaction
+from .models import parse_datetime, Transaction, Secure3d
 from .enums import Currency, TransactionStatus, ReasonCode
 
 
@@ -58,6 +58,7 @@ class TransactionTest(TestCase):
             "Token": "a4e67841-abb0-42de-a364-d1d8f9f4b3c0"
         }''')
         transaction = Transaction.from_dict(model)
+
         self.assertEqual(transaction.id, 504)
         self.assertEqual(transaction.amount, 10)
         self.assertEqual(transaction.currency, Currency.RUB)
@@ -101,5 +102,28 @@ class TransactionTest(TestCase):
         self.assertEqual(transaction.token,
                          'a4e67841-abb0-42de-a364-d1d8f9f4b3c0')
 
+
+class Secure3dTest(TestCase):
+    def test_reads_secure3d_from_dict(self):
+        model = json.loads(u'''{
+            "TransactionId": 504,
+            "PaReq": "eJxVUdtugkAQ/RXDe9mLgo0Z1nhpU9PQasWmPhLYAKksuEChfn13uVR9mGTO7MzZM2dg3qSn0Q+X\\nRZIJxyAmNkZcBFmYiMgxDt7zw6MxZ+DFkvP1ngeV5AxcXhR+xEdJ6BhpEZnEYLBdfPAzg56JKSKT\\nAhqgGpFB7IuSgR+cl5s3NqFTG2NAPYSUy82aETqeWPYUUAdB+ClnwSmrwtz/TbkoC0BtDYKsEqX8\\nZfZkDGgAUMkTi8synyFU17V5N2nKCpBuAHRVs610VijCJgmZu17UXTxhFWP34l7evYPlegsHkO6A\\n0C85o5hMsI3piNIZHc+IBaitg59qJYzgdrUOQK7/WNy+3FZAeSqV5cMqAwLe5JlQwpny8T8HdFW8\\netFuBqUyahV+Hjf27vWCaSx22fe+KY6kXKZfJLK1x22TZkyUS8QiHaUGgDQN6s+H+tOq7O7kf8hd\\nt30=",
+            "AcsUrl": "https://test.paymentgate.ru/acs/auth/start.do"
+        }''')
+        secure3d = Secure3d.from_dict(model)
+
+        self.assertEqual(secure3d.transaction_id, 504)
+        self.assertEqual(secure3d.pa_req, 'eJxVUdtugkAQ/RXDe9mLgo0Z1nhpU9PQasWmPhLYAKksuEChfn13uVR9mGTO7MzZM2dg3qSn0Q+X\nRZIJxyAmNkZcBFmYiMgxDt7zw6MxZ+DFkvP1ngeV5AxcXhR+xEdJ6BhpEZnEYLBdfPAzg56JKSKT\nAhqgGpFB7IuSgR+cl5s3NqFTG2NAPYSUy82aETqeWPYUUAdB+ClnwSmrwtz/TbkoC0BtDYKsEqX8\nZfZkDGgAUMkTi8synyFU17V5N2nKCpBuAHRVs610VijCJgmZu17UXTxhFWP34l7evYPlegsHkO6A\n0C85o5hMsI3piNIZHc+IBaitg59qJYzgdrUOQK7/WNy+3FZAeSqV5cMqAwLe5JlQwpny8T8HdFW8\netFuBqUyahV+Hjf27vWCaSx22fe+KY6kXKZfJLK1x22TZkyUS8QiHaUGgDQN6s+H+tOq7O7kf8hd\nt30=')
+        self.assertEqual(secure3d.acs_url,
+                         'https://test.paymentgate.ru/acs/auth/start.do')
+
+    def test_builds_redirect_url(self):
+        secure3d = Secure3d(111, 'asdas',
+                            'https://test.paymentgate.ru/acs/auth/start.do')
+        self.assertEqual(
+            secure3d.redirect_url('http://example.com'),
+            'https://test.paymentgate.ru/acs/auth/start.do?MD=111&PaReq=asdas'
+            '&TermUrl=http://example.com'
+        )
 
 

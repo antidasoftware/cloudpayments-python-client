@@ -89,3 +89,22 @@ class Transaction(object):
                    transaction_dict['Name'],
                    transaction_dict['Token']
         )
+
+
+class Secure3d(object):
+    def __init__(self, transaction_id, pa_req, acs_url):
+        self.transaction_id = transaction_id
+        self.pa_req = pa_req
+        self.acs_url = acs_url
+
+    def redirect_url(self, term_url):
+        return '%s?MD=%s&PaReq=%s&TermUrl=%s' % (
+            self.acs_url, self.transaction_id, self.pa_req, term_url
+        )
+
+    @classmethod
+    def from_dict(cls, secure3d_dict):
+        return cls(secure3d_dict['TransactionId'],
+                   secure3d_dict['PaReq'],
+                   secure3d_dict['AcsUrl']
+        )
