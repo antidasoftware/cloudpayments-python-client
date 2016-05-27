@@ -2,10 +2,11 @@
 from datetime import datetime
 import json
 from unittest import TestCase
+
 import pytz
 
-from models import parse_datetime, Transaction
-from enums import Currency, TransactionStatus, ReasonCode
+from .models import parse_datetime, Transaction
+from .enums import Currency, TransactionStatus, ReasonCode
 
 
 class ParseDateTimeTest(TestCase):
