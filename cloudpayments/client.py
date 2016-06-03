@@ -56,7 +56,7 @@ class CloudPayments(object):
             raise CloudPaymentsError(response)
         if 'ReasonCode' in response['Model']:
             raise PaymentError(response)
-        raise Secure3d.from_dict(response['Model'])
+        return Secure3d.from_dict(response['Model'])
 
     def finish_3d_secure_authentication(self, transaction_id, pa_res):
         params = {
