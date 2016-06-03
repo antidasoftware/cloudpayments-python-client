@@ -1,13 +1,20 @@
+import re
 from setuptools import setup
 
 VERSION = '1.0'
+
+long_description = open('README.rst').read()
+
+# PyPI can't process links with anchors
+long_description = re.sub(r'<(.*)#.*>`_', '<\g<1>>`_', long_description)
+
 
 setup(
     name = 'cloudpayments',
     packages = ['cloudpayments'],
 
     description = 'CloudPayments Python Client Library',
-    long_description = open('README.rst').read(),
+    long_description = long_description,
 
     version = VERSION,
 
