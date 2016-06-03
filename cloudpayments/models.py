@@ -116,7 +116,7 @@ class Secure3d(Model):
 
     @property
     def secure3d_required(self):
-        return False
+        return True
 
     def redirect_url(self, term_url):
         return '%s?MD=%s&PaReq=%s&TermUrl=%s' % (
