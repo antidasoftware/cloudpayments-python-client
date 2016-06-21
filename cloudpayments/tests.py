@@ -1,11 +1,12 @@
 # coding=utf-8
-from datetime import datetime
+from datetime import datetime, date
 import json
 from unittest import TestCase
 
 import pytz
 
-from .models import parse_datetime, Transaction, Secure3d, Subscription, Order
+from .models import Transaction, Secure3d, Subscription, Order
+from .utils import parse_datetime, format_datetime, format_date
 from .enums import Currency, TransactionStatus, ReasonCode, Interval, \
     SubscriptionStatus
 
@@ -14,6 +15,23 @@ class ParseDateTimeTest(TestCase):
     def test_parses_datetime(self):
         self.assertEqual(parse_datetime('2014-08-09T11:49:42'),
                          datetime(2014, 8, 9, 11, 49, 42, tzinfo=pytz.utc))
+
+
+class FormatDateTimeTest(TestCase):
+    def test_formats_datetime(self):
+        dt = datetime(2016, 8, 9, 11, 49, 42, tzinfo=pytz.utc)
+        self.assertEqual(format_datetime(dt), '2016-08-09T11:49:42')
+
+    def test_formats_local_datetime(self):
+        timezone = pytz.timezone('Europe/Moscow')
+        dt = timezone.localize(datetime(2016, 8, 9, 14, 49, 42))
+        self.assertEqual(format_datetime(dt), '2016-08-09T11:49:42')
+
+
+class FormatDateTest(TestCase):
+    def test_formats_date(self):
+        d = date(2016, 8, 9)
+        self.assertEqual(format_date(d), '2016-08-09')
 
 
 class TransactionTest(TestCase):

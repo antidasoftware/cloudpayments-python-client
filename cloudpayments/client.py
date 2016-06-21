@@ -6,6 +6,7 @@ from requests.auth import HTTPBasicAuth
 
 from .errors import CloudPaymentsError,  PaymentError
 from .models import Transaction, Secure3d, Subscription, Order
+from .utils import format_datetime, format_date
 
 
 class CloudPayments(object):
@@ -135,7 +136,7 @@ class CloudPayments(object):
         raise CloudPaymentsError(response)
 
     def list_payments(self, date, timezone=None):
-        params = {'Date': date.isoformat()}
+        params = {'Date': format_date(date)}
         if timezone is not None:
             params['Timezone'] = timezone
 
@@ -156,7 +157,7 @@ class CloudPayments(object):
             'Amount': amount,
             'Currency': currency,
             'RequireConfiramtion': require_confirmation,
-            'StartDate': start_date.isoformat(),
+            'StartDate': format_datetime(start_date),
             'Interval': interval,
             'Period': period,
         }
@@ -193,7 +194,7 @@ class CloudPayments(object):
         if require_confirmation is not None:
             params['RequireConfirmation'] = require_confirmation
         if start_date is not None:
-            params['StartDate'] = start_date.isoformat()
+            params['StartDate'] = format_datetime(start_date)
         if interval is not None:
             params['Interval'] = interval
         if period is not None:

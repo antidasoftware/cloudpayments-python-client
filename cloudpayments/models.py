@@ -1,11 +1,4 @@
-from datetime import datetime
-import pytz
-
-
-def parse_datetime(s):
-    if not s:
-        return None
-    return datetime.strptime(s, '%Y-%m-%dT%H:%M:%S').replace(tzinfo=pytz.utc)
+from .utils import parse_datetime
 
 
 class Model(object):
