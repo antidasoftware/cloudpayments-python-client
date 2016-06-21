@@ -136,13 +136,12 @@ class Secure3dTest(TestCase):
         self.assertEqual(secure3d.acs_url,
                          'https://test.paymentgate.ru/acs/auth/start.do')
 
-    def test_builds_redirect_url(self):
+    def test_builds_redirect_params(self):
         secure3d = Secure3d(111, 'asdas',
                             'https://test.paymentgate.ru/acs/auth/start.do')
-        self.assertEqual(
-            secure3d.redirect_url('http://example.com'),
-            'https://test.paymentgate.ru/acs/auth/start.do?MD=111&PaReq=asdas'
-            '&TermUrl=http://example.com'
+        self.assertDictEqual(
+            secure3d.redirect_params('http://example.com'),
+            {'MD': 111, 'PaReq': 'asdas', 'TermUrl': 'http://example.com'}
         )
 
 

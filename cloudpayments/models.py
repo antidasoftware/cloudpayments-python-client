@@ -111,10 +111,10 @@ class Secure3d(Model):
     def secure3d_required(self):
         return True
 
-    def redirect_url(self, term_url):
-        return '%s?MD=%s&PaReq=%s&TermUrl=%s' % (
-            self.acs_url, self.transaction_id, self.pa_req, term_url
-        )
+    def redirect_params(self, term_url):
+        return {'MD': self.transaction_id,
+                'PaReq': self.pa_req,
+                'TermUrl': term_url}
 
     @classmethod
     def from_dict(cls, secure3d_dict):
