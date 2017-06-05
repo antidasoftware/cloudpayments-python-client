@@ -199,3 +199,57 @@ class Order(Model):
                    order_dict['Description'],
                    order_dict['RequireConfirmation'],
                    order_dict['Url'])
+
+
+class Receipt(Model):
+    def __init__(self, items, taxation_system, email='', phone=''):
+        self.items = items
+        self.taxation_system = taxation_system
+        self.email = email
+        self.phone = phone
+
+    @classmethod
+    def from_dict(cls, receipt_dict):
+        items = [ReceiptItem.from_dict(item) for item in receipt_dict['Items']]
+        return cls(items,
+                   receipt_dict['taxationSystem'],
+                   receipt_dict['email'],
+                   receipt_dict['phone'])
+    
+    def to_dict(self):
+        items = [item.to_dict() for item in self.items]
+        return {
+            'items': items,
+            'taxationSystem': self.taxation_system,
+            'email': self.email,
+            'phone': self.phone
+        }
+
+
+class ReceiptItem(Model):
+    def __init__(self, label, price, quantity, amount, vat, ean13=None):
+        self.label = label
+        self.price = price
+        self.quantity = quantity
+        self.amount = amount
+        self.vat = vat
+        self.ean13 = ean13
+
+    @classmethod
+    def from_dict(cls, item_dict):
+        return cls(item_dict['label'],
+                   item_dict['price'],
+                   item_dict['quantity'],
+                   item_dict['amount'],
+                   item_dict['vat'],
+                   item_dict.get('ean13'))
+    
+    def to_dict(self):
+        return {
+            'label': self.label,
+            'price': self.price,
+            'quantity': self.quantity,
+            'amount': self.amount,
+            'vat': self.vat,
+            'ean13': self.ean13
+        }

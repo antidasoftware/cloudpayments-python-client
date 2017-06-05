@@ -5,7 +5,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from .errors import CloudPaymentsError,  PaymentError
-from .models import Transaction, Secure3d, Subscription, Order
+from .models import Transaction, Secure3d, Subscription, Order, Receipt
 from .utils import format_datetime, format_date
 
 
@@ -252,6 +252,9 @@ class CloudPayments(object):
 
     def create_receipt(self, inn, receipt_type, customer_receipt, 
                        invoice_id=None, account_id=None):
+        if isinstance(customer_receipt, Receipt):
+            customer_receipt = customer_receipt.to_dict()
+
         params = {
             'Inn': inn,
             'Type': receipt_type,

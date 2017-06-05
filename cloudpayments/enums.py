@@ -88,3 +88,19 @@ class Timezone(object):
 class CultureInfo(object):
     RU_RU = 'ru-RU'
     EN_US = 'en-US'
+
+
+class ReceiptType(object):
+    INCOME = 'Income'
+    INCOME_RETURN = 'IncomeReturn'
+    EXPENSE = 'Expense'
+    EXPENSE_RETURN = 'ExpenseReturn'
+
+
+class TaxationSystem(object):
+    OSNO = 0
+    USN_INCOME = 1
+    USN_INCOME_MINUS_EXPENSES = 2
+    ENVD = 3
+    ESHN = 4
+    PSN = 5
