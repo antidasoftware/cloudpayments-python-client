@@ -37,9 +37,11 @@ Python 2.6+ или 3+
 
 .. code:: python
 
-    test()
+    test(request_id=None)
 
-В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
+``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`_.
+
+В случае успеха возвращает строку с сообщением от сервиса.
 
 
 | **Оплата по криптограмме** (`описание <http://cloudpayments.ru/Docs/Api#payWithCrypto>`_)
@@ -201,6 +203,22 @@ Python 2.6+ или 3+
 ``culture_info`` — одна из констант, определенных в классе ``CultureInfo``.
 
 В случае успеха возвращает объект типа ``Order``.
+
+
+| **Формирование кассового чека** (`описание <https://cloudpayments.ru/docs/api/kassa#receipt>`_)
+
+.. code:: python
+
+    create_receipt(self, inn, receipt_type, customer_receipt, 
+                   invoice_id=None, account_id=None, request_id=None)
+
+``receipt_type`` — одна из констант, определенных в классе ``ReceiptType``.
+
+``customer_receipt`` — объект типа ``Receipt`` или словарь с данными чека.
+
+``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`_.
+
+В случае успеха возвращает строку с сообщением от сервиса.
 
 
 Авторы
