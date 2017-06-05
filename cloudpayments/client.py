@@ -1,5 +1,4 @@
 import decimal
-import json
 
 import requests
 from requests.auth import HTTPBasicAuth
@@ -52,7 +51,7 @@ class CloudPayments(object):
         if email is not None:
             params['Email'] = email
         if data is not None:
-            params['JsonData'] = json.dumps(data)
+            params['JsonData'] = data
 
         endpoint = ('payments/cards/auth' if require_confirmation else
                     'payments/cards/charge')
@@ -95,7 +94,7 @@ class CloudPayments(object):
         if email is not None:
             params['Email'] = email
         if data is not None:
-            params['JsonData'] = json.dumps(data)
+            params['JsonData'] = data
 
         endpoint = ('payments/tokens/auth' if require_confirmation else
                     'payments/tokens/charge')
