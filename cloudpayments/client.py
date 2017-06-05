@@ -249,3 +249,20 @@ class CloudPayments(object):
         if response['Success']:
             return Order.from_dict(response['Model'])
         raise CloudPaymentsError(response)
+
+    def create_receipt(self, inn, receipt_type, customer_receipt, 
+                       invoice_id=None, account_id=None):
+        params = {
+            'Inn': inn,
+            'Type': receipt_type,
+            'CustomerReceipt': customer_receipt,
+        }
+        if invoice_id is not None:
+            params['InvoiceId'] = invoice_id
+        if account_id is not None:
+            params['AccountId'] = account_id
+
+        response = self._send_request('kkt/receipt', params)
+
+        if not response['Success']:
+            raise CloudPaymentsError(response)
