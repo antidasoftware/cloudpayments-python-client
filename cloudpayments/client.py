@@ -18,7 +18,7 @@ class CloudPayments(object):
 
     def _send_request(self, endpoint, params=None):
         auth = HTTPBasicAuth(self.public_id, self.api_secret)
-        response = requests.post(self.URL + endpoint, data=params, auth=auth)
+        response = requests.post(self.URL + endpoint, json=params, auth=auth)
         return response.json(parse_float=decimal.Decimal)
 
     def test(self):
