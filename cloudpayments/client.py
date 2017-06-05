@@ -16,15 +16,22 @@ class CloudPayments(object):
         self.public_id = public_id
         self.api_secret = api_secret
 
-    def _send_request(self, endpoint, params=None):
+    def _send_request(self, endpoint, params=None, headers=None):
         auth = HTTPBasicAuth(self.public_id, self.api_secret)
-        response = requests.post(self.URL + endpoint, json=params, auth=auth)
+        response = requests.post(self.URL + endpoint, json=params, auth=auth, 
+                                 headers=headers)
         return response.json(parse_float=decimal.Decimal)
 
-    def test(self):
-        response = self._send_request('test')
+    def test(self, request_id=None):
+        headers = None
+        if request_id is not None:
+            headers = {'X-Request-ID': request_id}
+
+        response = self._send_request('test', headers=headers)
+
         if not response['Success']:
             raise CloudPaymentsError(response)
+        return response['Message']
 
     def charge_card(self, cryptogram, amount, currency, name, ip_address,
                     invoice_id=None, description=None, account_id=None,
@@ -251,7 +258,7 @@ class CloudPayments(object):
         raise CloudPaymentsError(response)
 
     def create_receipt(self, inn, receipt_type, customer_receipt, 
-                       invoice_id=None, account_id=None):
+                       invoice_id=None, account_id=None, request_id=None):
         if isinstance(customer_receipt, Receipt):
             customer_receipt = customer_receipt.to_dict()
 
@@ -265,7 +272,12 @@ class CloudPayments(object):
         if account_id is not None:
             params['AccountId'] = account_id
 
-        response = self._send_request('kkt/receipt', params)
+        headers = None
+        if request_id is not None:
+            headers = {'X-Request-ID': request_id}
+
+        response = self._send_request('kkt/receipt', params, headers)
 
         if not response['Success']:
             raise CloudPaymentsError(response)
+        return response['Message']
