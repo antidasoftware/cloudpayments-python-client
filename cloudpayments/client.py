@@ -74,7 +74,7 @@ class CloudPayments(object):
 
         if response['Success']:
             return Transaction.from_dict(response['Model'])
-        raise CloudPaymentsError(response)
+        raise PaymentError(response)
 
     def charge_token(self, token, account_id, amount, currency,
                      ip_address=None, invoice_id=None, description=None,
