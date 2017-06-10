@@ -1,9 +1,10 @@
 import re
 from setuptools import setup
+from io import open
 
 VERSION = '1.3'
 
-long_description = open('README.rst').read()
+long_description = open('README.rst', 'rt', encoding='utf8').read()
 
 # PyPI can't process links with anchors
 long_description = re.sub(r'<(.*)#.*>`_', '<\g<1>>`_', long_description)
