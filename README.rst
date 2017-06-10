@@ -39,7 +39,7 @@ Python 2.6+ или 3+
 
     test(request_id=None)
 
-``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`__).
+``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`__.
 
 В случае успеха возвращает строку с сообщением от сервиса.
 
