@@ -6,6 +6,10 @@ CloudPayments Python Client Library
    :target: https://pypi.python.org/pypi/cloudpayments/
    :alt: Python Package Index
 
+.. image:: https://img.shields.io/travis/antidasoftware/cloudpayments-python-client.svg
+   :target: https://travis-ci.org/antidasoftware/cloudpayments-python-client
+   :alt: Travis CI
+
 Клиент для платежного сервиса `CloudPayments <http://cloudpayments.ru/>`_. Позволяет обращаться к `API CloudPayments <http://cloudpayments.ru/Docs/Api>`_ из кода на Python.
 
 Установка
