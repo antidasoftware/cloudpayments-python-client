@@ -99,7 +99,9 @@ Python 2.6+ или 3.3+
 
 .. code:: python
 
-    confirm_payment(self, transaction_id, amount)
+    confirm_payment(self, transaction_id, amount, data=None)
+
+``data`` — произвольные данные, при отправке будут сериализованы в JSON.
 
 В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
 
