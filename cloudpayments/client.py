@@ -106,11 +106,15 @@ class CloudPayments(object):
             raise PaymentError(response)
         raise CloudPaymentsError(response)
 
-    def confirm_payment(self, transaction_id, amount):
+    def confirm_payment(self, transaction_id, amount, data=None):
         params = {
             'Amount': amount,
             'TransactionId': transaction_id
         }
+
+        if data is not None:
+            params['JsonData'] = data
+
         response = self._send_request('payments/confirm', params)
 
         if not response['Success']:
