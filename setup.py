@@ -20,7 +20,7 @@ setup(
     version = VERSION,
 
     author = 'Antida software',
-    author_email = 'info@antidasoftware',
+    author_email = 'info@antidasoftware.com',
     license = 'MIT license',
 
     url = 'https://github.com/antidasoftware/cloudpayments-python-client',
