@@ -1,14 +1,21 @@
 language: python
 python:
-  - "2.6"
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.5-dev"
-  - "3.6"
-  - "3.6-dev"
-  - "3.7-dev"
-  - "nightly"
-install: "python setup.py install"
+- '2.6'
+- '2.7'
+- '3.3'
+- '3.4'
+- '3.5'
+- 3.5-dev
+- '3.6'
+- 3.6-dev
+- 3.7-dev
+- nightly
+install: python setup.py install
 script: nosetests
+deploy:
+  provider: pypi
+  user: i-shevchenko
+  password:
+    secure: JRLhgbvUqzMCCN/bJpvNS0doBHeTUt8MGVB1iISZrQFEqJTl5f1m4I3rvKop/Hp8lyQ27mpkCEnixaw2hqtyomraA5CjzPcZzsc4jvj1wQTLyyEhYQemEdhNT8IFMMpZveAWxHZXzSQ9pfVv2O7Fw72t2i87Gql2kU137hUU25HfRQ9kCbez0chfTHthv1ChdO0okAaY5G+zeRL3r7HtFApHDtfh0U8kfGrqm8hRf0pYLdc0R9xZ9ysFu5Qy8cqJp7z9wqXbeWb96pwpb7rFw6SiRr0dDSKEIo6HkYGbyiHubFDeGEIk5aeSNC+dK99BuyPm7jz/nf7tvj/nSi/MhozVGrObGsM0VHeJHe01C/BXGL+mLYKlkFBQtwCcgqX1ZKWtDh7ANXwMinnLpbeOnn6ZLwbgVnEK1x6uBjjISP6rs5BTow6mKzelCLDv61Y0Lb8FqafjSokt35XhJmI/kM7T28yKfwpSaAdlL9DgIlSNFpAaR9gvlponm1Itx8fJ7j1s22+Te6UBnJ/8p1p7NUnUdHl1DeVjasKCfOCI2SwRma0q1EWqRUB3HlLoCC6+WZQW7wydY0AgafpGKIOV8YDqXX/oxzUJ8jKzzULZeS8vA8OGxSb6iPvHKxlM44p9utfeEKs9yoXALxiETr3/bOUFJBbyOfi5c85A5W6MuOU=
+  on:
+    tags: true
