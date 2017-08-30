@@ -139,7 +139,7 @@ class Secure3dTest(TestCase):
     def test_builds_redirect_params(self):
         secure3d = Secure3d(111, 'asdas',
                             'https://test.paymentgate.ru/acs/auth/start.do')
-        self.assertDictEqual(
+        self.assertEqual(
             secure3d.redirect_params('http://example.com'),
             {'MD': 111, 'PaReq': 'asdas', 'TermUrl': 'http://example.com'}
         )
@@ -186,12 +186,12 @@ class SubscriptionTest(TestCase):
         self.assertEqual(subscription.interval_code, 1)
         self.assertEqual(subscription.interval, Interval.MONTH)
         self.assertEqual(subscription.period, 1)
-        self.assertIsNone(subscription.max_periods)
+        self.assertEqual(subscription.max_periods, None)
         self.assertEqual(subscription.status_code, 0)
         self.assertEqual(subscription.status, SubscriptionStatus.ACTIVE)
         self.assertEqual(subscription.successful_transactions_number, 0)
         self.assertEqual(subscription.failed_transactions_number, 0)
-        self.assertIsNone(subscription.last_transaction_date)
+        self.assertEqual(subscription.last_transaction_date, None)
         self.assertEqual(subscription.next_transaction_date,
                          datetime(2014, 8, 9, 11, 49, 41, tzinfo=pytz.utc))
 
