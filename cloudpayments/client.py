@@ -283,4 +283,4 @@ class CloudPayments(object):
 
         if not response['Success']:
             raise CloudPaymentsError(response)
-        return response['Message']
+        return response
