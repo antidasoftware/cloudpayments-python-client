@@ -141,6 +141,16 @@ class CultureInfo(object):
     EN_US = 'en-US'
 
 
+class CultureName(object):
+    RU_RU = 'ru-RU'
+    EN_US = 'en-US'
+    LV = 'lv'
+    AZ = 'az'
+    KK = 'kk'
+    UK = 'uk'
+    PL = 'pl'
+
+
 class ReceiptType(object):
     INCOME = 'Income'
     INCOME_RETURN = 'IncomeReturn'
