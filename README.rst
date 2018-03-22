@@ -95,6 +95,17 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
+| **Выплата по токену** (`описание <https://cloudpayments.ru/Docs/Api#topup>`__)
+
+.. code:: python
+    
+    topup(self, token, amount, account_id, currency)
+
+``currency`` — одна из констант, определенных в классе ``Currency``
+
+В случае успеха возвращает объект типа ``Transaction``.
+
+
 | **Подтверждение оплаты** (`описание <http://cloudpayments.ru/Docs/Api#confirm>`__)
 
 .. code:: python
