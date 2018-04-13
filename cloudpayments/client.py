@@ -137,13 +137,15 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
 
-    def topup(self, token, amount, account_id, currency):
+    def topup(self, token, amount, account_id, currency, invoice_id=None):
         params = {
             'Token': token,
             'Amount': amount,
             'AccountId': account_id,
             'Currency': currency
         }
+        if invoice_id is not None:
+            params['InvoiceId'] = invoice_id
         response = self._send_request('payments/cards/topup', params)
 
         if not response['Success']:
