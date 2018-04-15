@@ -99,7 +99,7 @@ Python 2.6+ или 3.3+
 
 .. code:: python
     
-    topup(self, token, amount, account_id, currency)
+    topup(self, token, amount, account_id, currency, invoice_id=None)
 
 ``currency`` — одна из констант, определенных в классе ``Currency``
 
