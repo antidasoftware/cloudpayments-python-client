@@ -2,7 +2,7 @@ import re
 from setuptools import setup
 from io import open
 
-VERSION = '1.4.0'
+VERSION = '1.4.1'
 
 long_description = open('README.rst', 'rt', encoding='utf8').read()
 
