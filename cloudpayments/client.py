@@ -151,7 +151,6 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
 
-
     def find_payment(self, invoice_id):
         params = {'InvoiceId': invoice_id}
         response = self._send_request('payments/find', params)
