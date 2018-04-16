@@ -3,6 +3,7 @@ import decimal
 import requests
 from requests.auth import HTTPBasicAuth
 
+from .enums import CultureName
 from .errors import CloudPaymentsError,  PaymentError
 from .models import Transaction, Secure3d, Subscription, Order, Receipt
 from .utils import format_datetime, format_date
@@ -11,13 +12,17 @@ from .utils import format_datetime, format_date
 class CloudPayments(object):
     URL = 'https://api.cloudpayments.ru/'
 
-    def __init__(self, public_id, api_secret):
+    def __init__(self, public_id, api_secret, language=CultureName.RU_RU):
         self.public_id = public_id
         self.api_secret = api_secret
+        self.language = language
 
     def _send_request(self, endpoint, params=None, headers=None):
+        params = params or {}
+        params.update({'CultureName': self.language})
+
         auth = HTTPBasicAuth(self.public_id, self.api_secret)
-        response = requests.post(self.URL + endpoint, json=params, auth=auth, 
+        response = requests.post(self.URL + endpoint, json=params, auth=auth,
                                  headers=headers)
         return response.json(parse_float=decimal.Decimal)
 
