@@ -13,6 +13,7 @@ class PaymentError(CloudPaymentsError):
         self.reason = response['Model']['Reason']
         self.reason_code = response['Model']['ReasonCode']
         self.cardholder_message = response['Model']['CardHolderMessage']
+        self.transaction_id = response['Model']['TransactionId']
         super(PaymentError, self).__init__(response, self.reason)
 
     @property
