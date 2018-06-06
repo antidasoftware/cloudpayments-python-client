@@ -45,7 +45,7 @@ Python 2.6+ или 3.3+
 
 .. code:: python
 
-    test(request_id=None)
+    test(self, request_id=None)
 
 ``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`__.
 
@@ -55,7 +55,7 @@ Python 2.6+ или 3.3+
 | **Получение транзакции** (`описание <https://cloudpayments.ru/Docs/Api#get>`__)
 .. code:: python
 
-    get_transaction(transaction_id)
+    get_transaction(self, transaction_id)
 
 ``transaction_id`` — ID транзакции
 
