@@ -52,6 +52,16 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает строку с сообщением от сервиса.
 
 
+| **Получение транзакции** (`описание <https://cloudpayments.ru/Docs/Api#get>`__)
+.. code:: python
+
+    get_transaction(transaction_id)
+
+``transaction_id`` — ID транзакции
+
+В случае успеха возвращает объект типа ``Transaction``.
+
+
 | **Оплата по криптограмме** (`описание <http://cloudpayments.ru/Docs/Api#payWithCrypto>`__)
 
 .. code:: python
