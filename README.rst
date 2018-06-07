@@ -52,16 +52,6 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает строку с сообщением от сервиса.
 
 
-| **Получение транзакции** (`описание <https://cloudpayments.ru/Docs/Api#get>`__)
-.. code:: python
-
-    get_transaction(self, transaction_id)
-
-``transaction_id`` — ID транзакции
-
-В случае успеха возвращает объект типа ``Transaction``.
-
-
 | **Оплата по криптограмме** (`описание <http://cloudpayments.ru/Docs/Api#payWithCrypto>`__)
 
 .. code:: python
@@ -105,17 +95,6 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
-| **Выплата по токену** (`описание <https://cloudpayments.ru/Docs/Api#topup>`__)
-
-.. code:: python
-    
-    topup(self, token, amount, account_id, currency, invoice_id=None)
-
-``currency`` — одна из констант, определенных в классе ``Currency``
-
-В случае успеха возвращает объект типа ``Transaction``.
-
-
 | **Подтверждение оплаты** (`описание <http://cloudpayments.ru/Docs/Api#confirm>`__)
 
 .. code:: python
@@ -143,6 +122,27 @@ Python 2.6+ или 3.3+
     refund(self, transaction_id, amount)
 
 В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
+
+
+| **Выплата по токену** (`описание <https://cloudpayments.ru/Docs/Api#topup>`__)
+
+.. code:: python
+    
+    topup(self, token, amount, account_id, currency, invoice_id=None)
+
+``currency`` — одна из констант, определенных в классе ``Currency``
+
+В случае успеха возвращает объект типа ``Transaction``.
+
+
+| **Получение транзакции** (`описание <https://cloudpayments.ru/Docs/Api#get>`__)
+.. code:: python
+
+    get_transaction(self, transaction_id)
+
+``transaction_id`` — ID транзакции
+
+В случае успеха возвращает объект типа ``Transaction``.
 
 
 | **Проверка статуса платежа** (`описание <http://cloudpayments.ru/Docs/Api#find>`__)
