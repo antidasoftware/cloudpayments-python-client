@@ -3,7 +3,7 @@ import decimal
 import requests
 from requests.auth import HTTPBasicAuth
 
-from .errors import CloudPaymentsError,  PaymentError
+from .errors import CloudPaymentsError, PaymentError
 from .models import Transaction, Secure3d, Subscription, Order, Receipt
 from .utils import format_datetime, format_date
 
@@ -31,6 +31,15 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
         return response['Message']
+
+    def get_transaction(self, transaction_id):
+        """Get transaction info by its id."""
+        params = {'TransactionId': transaction_id}
+        response = self._send_request('payments/get', params)
+        if 'Model' in response.keys():
+            return Transaction.from_dict(response['Model'])
+        else:
+            raise CloudPaymentsError(response)
 
     def charge_card(self, cryptogram, amount, currency, name, ip_address,
                     invoice_id=None, description=None, account_id=None,
@@ -99,7 +108,6 @@ class CloudPayments(object):
         endpoint = ('payments/tokens/auth' if require_confirmation else
                     'payments/tokens/charge')
         response = self._send_request(endpoint, params)
-
         if response['Success']:
             return Transaction.from_dict(response['Model'])
         if 'Model' in response and 'ReasonCode' in response['Model']:
@@ -148,8 +156,10 @@ class CloudPayments(object):
             params['InvoiceId'] = invoice_id
         response = self._send_request('payments/cards/topup', params)
 
-        if not response['Success']:
-            raise CloudPaymentsError(response)
+        if response['Success']:
+            return Transaction.from_dict(response['Model'])
+
+        raise CloudPaymentsError(response)
 
     def find_payment(self, invoice_id):
         params = {'InvoiceId': invoice_id}
