@@ -1,4 +1,5 @@
 import re
+import sys
 from setuptools import setup
 from io import open
 
@@ -8,6 +9,12 @@ long_description = open('README.rst', 'rt', encoding='utf8').read()
 
 # PyPI can't process links with anchors
 long_description = re.sub(r'<(.*)#.*>`_', '<\g<1>>`_', long_description)
+
+if sys.version_info >= (2,7):
+    requests_install_requires = 'requests >=2.9.1'
+else:
+    # Requests 2.20.0+ doesn't support Python 2.6
+    requests_install_requires = 'requests >=2.9.1, <2.20.0'
 
 
 setup(
@@ -32,7 +39,7 @@ setup(
     ],
 
     install_requires = [
-        'requests >=2.9.1',
+        requests_install_requires,
         'pytz >=2015.7'
     ],
 
