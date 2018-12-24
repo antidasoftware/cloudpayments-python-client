@@ -308,3 +308,11 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
         return response['Model']['Id']
+
+    def get_receipt(self, receipt_id):
+        params = {'Id': receipt_id}
+        response = self._send_request('kkt/receipt/get', params)
+
+        if response['Success']:
+            return Receipt.from_dict(response['Model'])
+        raise CloudPaymentsError(response)

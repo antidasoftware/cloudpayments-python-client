@@ -236,7 +236,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Order``.
 
 
-| **Формирование кассового чека** (`описание <https://cloudpayments.ru/docs/api/kassa#receipt>`__)
+| **Формирование кассового чека** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#form>`__)
 
 .. code:: python
 
@@ -251,6 +251,17 @@ Python 2.6+ или 3.3+
 
 В случае успеха возвращает строку с уникальным идентификатором чека.
 
+
+| **Получение данных чека** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#Получение%20данных%20чека>`__)
+
+.. code:: python
+
+    get_receipt(self, receipt_id)
+
+
+``receipt_id`` — идентификатор чека
+
+В случае успеха возвращает объект типа ``Receipt``
 
 Авторы
 ======
