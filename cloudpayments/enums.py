@@ -155,3 +155,19 @@ class TaxationSystem(object):
     ENVD = 3
     ESHN = 4
     PSN = 5
+
+
+class VAT(object):
+    """Vat options according to CloudPayaments docs.
+
+    https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#nds
+    """
+
+    WITHOUT = None  # null или не указано — НДС не облагается
+    VAT20 = 20  # НДС 20%
+    VAT18 = 18  # НДС 18%
+    VAT10 = 10  # НДС 10%
+    VAT0 = 0  # НДС 0%
+    VAT110 = 110  # расчетный НДС 10/110
+    VAT118 = 118  # расчетный НДС 18/118
+    VAT120 = 120  # расчетный НДС 20/120
