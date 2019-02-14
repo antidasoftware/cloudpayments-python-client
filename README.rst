@@ -41,18 +41,18 @@ Python 2.6+ или 3.3+
 Обращение к API осуществляется через методы клиента.
 
 
-| **Тестовый метод** (`описание <http://cloudpayments.ru/Docs/Api#ping>`__)
+| **Тестовый метод** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#test>`__)
 
 .. code:: python
 
     test(self, request_id=None)
 
-``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`__.
+``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#idem_api>`__.
 
 В случае успеха возвращает строку с сообщением от сервиса.
 
 
-| **Оплата по криптограмме** (`описание <http://cloudpayments.ru/Docs/Api#payWithCrypto>`__)
+| **Оплата по криптограмме** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#pay_with_crypto>`__)
 
 .. code:: python
 
@@ -69,7 +69,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction`` (если не требуется 3-D Secure аутентификация) либо ``Secure3d`` (если требуется).
 
 
-| **Завершение оплаты после прохождения 3-D Secure** (`описание <http://cloudpayments.ru/Docs/Api#3ds>`__)
+| **Завершение оплаты после прохождения 3-D Secure** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#3ds>`__)
 
 .. code:: python
 
@@ -78,7 +78,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
-| **Оплата по токену** (`описание <http://cloudpayments.ru/Docs/Api#payWithToken>`__)
+| **Оплата по токену** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#paywithtoken>`__)
 
 .. code:: python
 
@@ -95,7 +95,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
-| **Подтверждение оплаты** (`описание <http://cloudpayments.ru/Docs/Api#confirm>`__)
+| **Подтверждение оплаты** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#approval>`__)
 
 .. code:: python
 
@@ -106,7 +106,7 @@ Python 2.6+ или 3.3+
 В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
 
 
-| **Отмена оплаты** (`описание <http://cloudpayments.ru/Docs/Api#void>`__)
+| **Отмена оплаты** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#void>`__)
 
 .. code:: python
 
@@ -115,7 +115,7 @@ Python 2.6+ или 3.3+
 В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
 
 
-| **Возврат денег** (`описание <http://cloudpayments.ru/Docs/Api#refund>`__)
+| **Возврат денег** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#refund>`__)
 
 .. code:: python
 
@@ -124,7 +124,7 @@ Python 2.6+ или 3.3+
 В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
 
 
-| **Выплата по токену** (`описание <https://cloudpayments.ru/Docs/Api#topup>`__)
+| **Выплата по токену** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#payment_token>`__)
 
 .. code:: python
     
@@ -135,7 +135,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
-| **Получение транзакции** (`описание <https://cloudpayments.ru/Docs/Api#get>`__)
+| **Получение транзакции** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#oper_info>`__)
 .. code:: python
 
     get_transaction(self, transaction_id)
@@ -145,7 +145,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
-| **Проверка статуса платежа** (`описание <http://cloudpayments.ru/Docs/Api#find>`__)
+| **Проверка статуса платежа** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#status_check>`__)
 
 .. code:: python
 
@@ -154,7 +154,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Transaction``.
 
 
-| **Выгрузка списка транзакций** (`описание <http://cloudpayments.ru/Docs/Api#list>`__)
+| **Выгрузка списка транзакций** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#oper_load>`__)
 
 .. code:: python
 
@@ -167,7 +167,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает список объектов типа ``Transaction``.
 
 
-| **Создание подписки** (`описание <http://cloudpayments.ru/Docs/Api#create-recurrent>`__)
+| **Создание подписки** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#create_recurrent>`__)
 
 .. code:: python
 
@@ -184,7 +184,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Subscription``.
 
 
-| **Запрос статуса подписки** (`описание <http://cloudpayments.ru/Docs/Api#get-recurrent>`__)
+| **Запрос статуса подписки** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#rec_info>`__)
 
 .. code:: python
 
@@ -193,7 +193,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Subscription``.
 
 
-| **Изменение подписки** (`описание <http://cloudpayments.ru/Docs/Api#update-recurrent>`__)
+| **Изменение подписки** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#rec_change>`__)
 
 .. code:: python
 
@@ -211,7 +211,7 @@ Python 2.6+ или 3.3+
 В случае успеха возвращает объект типа ``Subscription``.
 
 
-| **Отмена подписки** (`описание <http://cloudpayments.ru/Docs/Api#cancel-recurrent>`__)
+| **Отмена подписки** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#rec_cancel>`__)
 
 .. code:: python
 
@@ -220,7 +220,7 @@ Python 2.6+ или 3.3+
 В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
 
 
-| **Отправка счета по почте** (`описание <http://cloudpayments.ru/Docs/Api#createOrder>`__)
+| **Отправка счета по почте** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#create_invoice>`__)
 
 .. code:: python
 
@@ -247,7 +247,7 @@ Python 2.6+ или 3.3+
 
 ``customer_receipt`` — объект типа ``Receipt`` или словарь с данными чека.
 
-``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/docs/api/kassa#idempotent>`__.
+``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#idem_api>`__.
 
 В случае успеха возвращает строку с уникальным идентификатором чека.
 
