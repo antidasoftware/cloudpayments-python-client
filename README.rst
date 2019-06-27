@@ -23,7 +23,7 @@ CloudPayments Python Client Library
 Требования
 ==========
 
-Python 2.6+ или 3.3+
+Python 2.7 или 3.4+
 
 
 Использование
