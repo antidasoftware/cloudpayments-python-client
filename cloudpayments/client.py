@@ -43,7 +43,8 @@ class CloudPayments(object):
 
     def charge_card(self, cryptogram, amount, currency, name, ip_address,
                     invoice_id=None, description=None, account_id=None,
-                    email=None, data=None, require_confirmation=False):
+                    email=None, data=None, require_confirmation=False,
+                    service_fee=None):
         params = {
             'Amount': amount,
             'Currency': currency,
@@ -59,6 +60,8 @@ class CloudPayments(object):
             params['AccountId'] = account_id
         if email is not None:
             params['Email'] = email
+        if service_fee is not None:
+            params['PayerServiceFee'] = service_fee
         if data is not None:
             params['JsonData'] = data
 

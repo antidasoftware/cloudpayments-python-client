@@ -58,11 +58,14 @@ Python 2.6+ или 3.3+
 
     charge_card(self, cryptogram, amount, currency, name, ip_address,
                 invoice_id=None, description=None, account_id=None,
-                email=None, data=None, require_confirmation=False)
+                email=None, data=None, require_confirmation=False,
+                service_fee=None)
 
-``currency`` — одна из констант, определенных в классе ``Currency``
+``currency`` — одна из констант, определенных в классе ``Currency``.
 
 ``data`` — произвольные данные, при отправке будут сериализованы в JSON.
+
+``service_fee`` — сервисный сбор.
 
 ``require_confirmation`` — если установлено в ``True``, платеж будет выполняться по двухстадийной схеме.
 
