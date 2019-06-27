@@ -139,6 +139,7 @@ Python 2.7 или 3.4+
 
 
 | **Получение транзакции** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#oper_info>`__)
+
 .. code:: python
 
     get_transaction(self, transaction_id)
