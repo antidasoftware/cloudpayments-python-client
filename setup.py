@@ -1,14 +1,14 @@
 import re
+import sys
 from setuptools import setup
 from io import open
 
-VERSION = '1.3.2'
+VERSION = '1.6.0'
 
 long_description = open('README.rst', 'rt', encoding='utf8').read()
 
 # PyPI can't process links with anchors
 long_description = re.sub(r'<(.*)#.*>`_', '<\g<1>>`_', long_description)
-
 
 setup(
     name = 'cloudpayments',
@@ -42,15 +42,16 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Office/Business',
         'Topic :: Office/Business :: Financial',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
+
+    zip_safe=False
 )

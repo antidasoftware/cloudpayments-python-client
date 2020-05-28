@@ -1,3 +1,4 @@
+# coding=utf-8
 from .utils import parse_datetime
 
 
@@ -202,54 +203,110 @@ class Order(Model):
 
 
 class Receipt(Model):
-    def __init__(self, items, taxation_system, email='', phone=''):
+    """Receipt model representation."""
+
+    def __init__(self, items, taxation_system, email='', phone='', amounts=None):
         self.items = items
         self.taxation_system = taxation_system
         self.email = email
         self.phone = phone
+        self.amounts = amounts
 
     @classmethod
     def from_dict(cls, receipt_dict):
+        """Retrieve data from dict and place it as object properties."""
         items = [ReceiptItem.from_dict(item) for item in receipt_dict['Items']]
-        return cls(items,
-                   receipt_dict['taxationSystem'],
-                   receipt_dict['email'],
-                   receipt_dict['phone'])
-    
+        amounts_dict = receipt_dict.get('Amounts', None)
+        amounts = Amount.from_dict(amounts_dict) if amounts_dict else None
+        return cls(items=items,
+                   taxation_system=receipt_dict.get('TaxationSystem'),
+                   email=receipt_dict.get('Email'),
+                   phone=receipt_dict.get('Phone'),
+                   amounts=amounts)
+
     def to_dict(self):
+        """Convert instance properties to dict."""
         items = [item.to_dict() for item in self.items]
-        return {
+        result = {
             'items': items,
             'taxationSystem': self.taxation_system,
             'email': self.email,
-            'phone': self.phone
+            'phone': self.phone,
         }
+        if isinstance(self.amounts, Amount):
+            result.update({'Amounts': self.amounts.to_dict()})
+        return result
+
+
+class Amount(Model):
+    """Amount model representation."""
+
+    def __init__(self, electronic=None, advance_payment=None, credit=None, provision=None):
+        """Initial method."""
+        self.electronic = electronic  # Сумма оплаты электронными деньгами
+        self.advance_payment = advance_payment  # Сумма из предоплаты (зачетом аванса) (2 знака после запятой)
+        self.credit = credit  # Сумма постоплатой(в кредит) (2 знака после запятой)
+        self.provision = provision  # Сумма оплаты встречным предоставлением (сертификаты, др. мат.ценности) (2 знака после запятой)
+
+    def to_dict(self):
+        """Convert instance properties to dict."""
+        return {
+            'electronic': self.electronic,
+            'advancePayment': self.advance_payment,
+            'credit': self.credit,
+            'provision': self.provision
+        }
+
+    @classmethod
+    def from_dict(cls, amount_dict):
+        """Retrieve data from dict and place it as object properties."""
+        return cls(
+            electronic=amount_dict.get('Electronic'),
+            advance_payment=amount_dict.get('AdvancePayment'),
+            credit=amount_dict.get('Credit'),
+            provision=amount_dict.get('Provision')
+        )
 
 
 class ReceiptItem(Model):
-    def __init__(self, label, price, quantity, amount, vat, ean13=None):
+    """Receipt Item model representation."""
+
+    def __init__(self, label, price, quantity, amount, vat, ean13=None,
+                 method=0, item_object=0, measurement_unit=None):
+        """Initial method."""
         self.label = label
         self.price = price
         self.quantity = quantity
         self.amount = amount
-        self.vat = vat
+        self.vat = vat  # Propety of enums.VAT
         self.ean13 = ean13
+        self.method = method  # признак способа расчета
+        self.item_object = item_object  # признак предмета товара, работы, услуги, платежа, выплаты, иного предмета расчета
+        self.measurement_unit = measurement_unit  # единица измерения
 
     @classmethod
     def from_dict(cls, item_dict):
-        return cls(item_dict['label'],
-                   item_dict['price'],
-                   item_dict['quantity'],
-                   item_dict['amount'],
-                   item_dict['vat'],
-                   item_dict.get('ean13'))
-    
+        """Retrieve data from dict and place it as object properties."""
+        return cls(label=item_dict.get('Label'),
+                   price=item_dict.get('Price'),
+                   quantity=item_dict.get('Quantity'),
+                   amount=item_dict.get('Amount'),
+                   vat=item_dict.get('Vat'),
+                   ean13=item_dict.get('EAN13'),
+                   measurement_unit=item_dict.get('MeasurementUnit'),
+                   item_object=item_dict.get('Object'),
+                   method=item_dict.get('Method'))
+
     def to_dict(self):
+        """Convert instance properties to dict."""
         return {
             'label': self.label,
             'price': self.price,
             'quantity': self.quantity,
             'amount': self.amount,
             'vat': self.vat,
-            'ean13': self.ean13
+            'ean13': self.ean13,
+            'method': self.method,
+            'object': self.item_object,
+            'measurementUnit': self.measurement_unit
         }
