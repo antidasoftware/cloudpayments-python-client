@@ -148,6 +148,8 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
 
+        return response['Model']['TransactionId']
+
     def topup(self, token, amount, account_id, currency, invoice_id=None):
         params = {
             'Token': token,
