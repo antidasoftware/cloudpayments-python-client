@@ -138,15 +138,22 @@ class CloudPayments(object):
         if not response['Success']:
             raise CloudPaymentsError(response)
 
-    def refund(self, transaction_id, amount):
+    def refund(self, transaction_id, amount, request_id=None):
         params = {
             'Amount': amount,
             'TransactionId': transaction_id
         }
-        response = self._send_request('payments/refund', params)
+
+        headers = None
+        if request_id is not None:
+            headers = {'X-Request-ID': request_id}
+            
+        response = self._send_request('payments/refund', params, headers)
 
         if not response['Success']:
             raise CloudPaymentsError(response)
+
+        return response['Model']['TransactionId']
 
     def topup(self, token, amount, account_id, currency, invoice_id=None):
         params = {
