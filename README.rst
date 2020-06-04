@@ -47,7 +47,7 @@ Python 2.7 или 3.4+
 
     test(self, request_id=None)
 
-``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#idem_api>`__.
+``request_id`` — идентификатор для `идемпотентного запроса <https://developers.cloudkassir.ru/#idempotentnost-api>`__.
 
 В случае успеха возвращает строку с сообщением от сервиса.
 
@@ -122,9 +122,11 @@ Python 2.7 или 3.4+
 
 .. code:: python
 
-    refund(self, transaction_id, amount)
+    refund(self, transaction_id, amount, request_id=None)
 
-В случае успеха метод ничего не возвращает, при ошибке бросает исключение.
+``request_id`` — идентификатор для `идемпотентного запроса <https://developers.cloudkassir.ru/#idempotentnost-api>`__.
+
+В случае успеха возвращает идентификатор транзакции возврата.
 
 
 | **Выплата по токену** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#payment_token>`__)
@@ -251,7 +253,7 @@ Python 2.7 или 3.4+
 
 ``customer_receipt`` — объект типа ``Receipt`` или словарь с данными чека.
 
-``request_id`` — идентификатор для `идемпотентного запроса <https://cloudpayments.ru/wiki/integration/instrumenti/apikassa#idem_api>`__.
+``request_id`` — идентификатор для `идемпотентного запроса <https://developers.cloudkassir.ru/#idempotentnost-api>`__.
 
 В случае успеха возвращает строку с уникальным идентификатором чека.
 
