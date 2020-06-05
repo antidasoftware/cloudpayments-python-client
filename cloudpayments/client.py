@@ -15,18 +15,19 @@ class CloudPayments(object):
         self.public_id = public_id
         self.api_secret = api_secret
 
-    def _send_request(self, endpoint, params=None, headers=None):
+    def _send_request(self, endpoint, params=None, request_id=None):
         auth = HTTPBasicAuth(self.public_id, self.api_secret)
+
+        headers = None
+        if request_id is not None:
+            headers = {'X-Request-ID': request_id}
+
         response = requests.post(self.URL + endpoint, json=params, auth=auth, 
                                  headers=headers)
         return response.json(parse_float=decimal.Decimal)
 
     def test(self, request_id=None):
-        headers = None
-        if request_id is not None:
-            headers = {'X-Request-ID': request_id}
-
-        response = self._send_request('test', headers=headers)
+        response = self._send_request('test', request_id=request_id)
 
         if not response['Success']:
             raise CloudPaymentsError(response)
@@ -143,12 +144,7 @@ class CloudPayments(object):
             'Amount': amount,
             'TransactionId': transaction_id
         }
-
-        headers = None
-        if request_id is not None:
-            headers = {'X-Request-ID': request_id}
-            
-        response = self._send_request('payments/refund', params, headers)
+        response = self._send_request('payments/refund', params, request_id)
 
         if not response['Success']:
             raise CloudPaymentsError(response)
@@ -309,11 +305,7 @@ class CloudPayments(object):
         if account_id is not None:
             params['AccountId'] = account_id
 
-        headers = None
-        if request_id is not None:
-            headers = {'X-Request-ID': request_id}
-
-        response = self._send_request('kkt/receipt', params, headers)
+        response = self._send_request('kkt/receipt', params, request_id)
 
         if not response['Success']:
             raise CloudPaymentsError(response)
