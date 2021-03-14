@@ -190,6 +190,17 @@ Python 2.7 или 3.4+
 В случае успеха возвращает объект типа ``Subscription``.
 
 
+| **Выгрузка списка подписок** (`описание <https://developers.cloudpayments.ru/#poisk-podpisok>`__)
+
+.. code:: python
+
+    list_subscriptions(self, account_id)
+    
+``account_id`` — идентификатор пользователя
+
+В случае успеха возвращает список объектов типа ``Subscription``.
+
+
 | **Запрос статуса подписки** (`описание <https://cloudpayments.ru/wiki/integration/instrumenti/api#rec_info>`__)
 
 .. code:: python
