@@ -215,7 +215,7 @@ class CloudPayments(object):
         response = self._send_request('subscriptions/find', params)
 
         if response['Success']:
-            return Subscription.from_dict(response['Model'])
+            return map(Subscription.from_dict, response['Model'])
         raise CloudPaymentsError(response)
 
         
