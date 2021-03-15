@@ -210,6 +210,15 @@ class CloudPayments(object):
             return Subscription.from_dict(response['Model'])
         raise CloudPaymentsError(response)
 
+    def list_subscriptions(self, account_id):
+        params = {'accountId': account_id}
+        response = self._send_request('subscriptions/find', params)
+
+        if response['Success']:
+            return map(Subscription.from_dict, response['Model'])
+        raise CloudPaymentsError(response)
+
+        
     def get_subscription(self, subscription_id):
         params = {'Id': subscription_id}
         response = self._send_request('subscriptions/get', params)
