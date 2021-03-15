@@ -3,7 +3,7 @@ import sys
 from setuptools import setup
 from io import open
 
-VERSION = '1.6.2'
+VERSION = '1.6.3'
 
 long_description = open('README.rst', 'rt', encoding='utf8').read()
 
@@ -48,6 +48,8 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Topic :: Office/Business',
         'Topic :: Office/Business :: Financial',
         'Topic :: Software Development :: Libraries :: Python Modules'

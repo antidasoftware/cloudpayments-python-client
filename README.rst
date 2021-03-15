@@ -196,7 +196,7 @@ Python 2.7 или 3.4+
 
     list_subscriptions(self, account_id)
     
-``account_id`` — идентификатор пользователя
+``account_id`` — идентификатор пользователя.
 
 В случае успеха возвращает список объектов типа ``Subscription``.
 
