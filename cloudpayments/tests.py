@@ -20,12 +20,12 @@ class ParseDateTimeTest(TestCase):
 class FormatDateTimeTest(TestCase):
     def test_formats_datetime(self):
         dt = datetime(2016, 8, 9, 11, 49, 42, tzinfo=pytz.utc)
-        self.assertEqual(format_datetime(dt), '2016-08-09T11:49:42')
+        self.assertEqual(format_datetime(dt), '2016-08-09T11:49:42Z')
 
     def test_formats_local_datetime(self):
         timezone = pytz.timezone('Europe/Moscow')
         dt = timezone.localize(datetime(2016, 8, 9, 14, 49, 42))
-        self.assertEqual(format_datetime(dt), '2016-08-09T11:49:42')
+        self.assertEqual(format_datetime(dt), '2016-08-09T11:49:42Z')
 
 
 class FormatDateTest(TestCase):
