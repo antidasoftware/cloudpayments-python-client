@@ -188,7 +188,8 @@ class CloudPayments(object):
 
     def create_subscription(self, token, account_id, amount, currency,
                             description, email, start_date, interval, period,
-                            require_confirmation=False, max_periods=None):
+                            require_confirmation=False, max_periods=None,
+                            customer_receipt=None):
         params = {
             'Token': token,
             'AccountId': account_id,
@@ -203,6 +204,8 @@ class CloudPayments(object):
         }
         if max_periods is not None:
             params['MaxPeriods'] = max_periods
+        if customer_receipt is not None:
+            params['CustomerReceipt'] = customer_receipt
 
         response = self._send_request('subscriptions/create', params)
 
