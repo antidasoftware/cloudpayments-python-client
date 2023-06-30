@@ -280,6 +280,33 @@ Python 2.7 или 3.4+
 
 В случае успеха возвращает объект типа ``Receipt``
 
+| **Изменение настроек уведомлений** (`описание <https://developers.cloudpayments.ru/#izmenenie-nastroek-uvedomleniy>`__)
+
+.. code:: python
+
+    def update_webhook(
+            self,
+            webhook_type: WebhookType,
+            address,
+            is_enabled: bool = True,
+            method="GET",
+            encoding="UTF8",
+            format_notifications="CloudPayments"
+    )
+
+``webhook_type`` — тип уведомления: Pay/Fail и т.д.
+
+``address`` — адрес для отправки уведомлений (для HTTPS-схемы необходим валидный SSL-сертификат)
+
+``is_enabled`` — Если значение true — то уведомление включено.
+
+``method`` — HTTP-метод для отправки уведомлений. Возможные значения: GET, POST. Значение по умолчанию — GET
+
+``encoding`` — кодировка уведомлений. Возможные значения: UTF8, Windows1251. Значение по умолчанию — UTF8
+
+``format_notifications`` — Формат уведомлений. Возможные значения: CloudPayments, QIWI, RT. Значение по умолчанию — CloudPayments
+
+
 Авторы
 ======
 

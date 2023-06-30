@@ -165,6 +165,15 @@ class TaxationSystem(object):
     ESHN = 4
     PSN = 5
 
+class WebhookType(object):
+    CHECK = 'Check'
+    PAY = 'Pay'
+    FAIL = 'Fail'
+    CONFIRM = 'Confirm'
+    REFUND = 'Refund'
+    RECURRENT = 'Recurrent'
+    CANCEL = 'Cancel'
+
 
 class VAT(object):
     """Vat options according to CloudPayaments docs.

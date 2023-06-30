@@ -330,3 +330,24 @@ class CloudPayments(object):
         if response['Success']:
             return Receipt.from_dict(response['Model'])
         raise CloudPaymentsError(response)
+
+    def update_webhook(
+            self,
+            webhook_type: WebhookType,
+            address,
+            is_enabled: bool = True,
+            method="GET",
+            encoding="UTF8",
+            format_notifications="CloudPayments"
+    ):
+        params = {
+            'IsEnabled': is_enabled,
+            'Address': address,
+            'HttpMethod': method,
+            'Encoding': encoding,
+            'Format': format_notifications
+        }
+        response = self._send_request(f'site/notifications/{webhook_type}/update', params)
+        if response['Success']:
+            return response
+        raise CloudPaymentsError(response)
