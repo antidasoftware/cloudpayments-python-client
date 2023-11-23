@@ -91,12 +91,13 @@ class CloudPayments(object):
 
     def charge_token(self, token, account_id, amount, currency,
                      ip_address=None, invoice_id=None, description=None,
-                     email=None, data=None, require_confirmation=False):
+                     email=None, data=None, tr_initiator_code: int = 1, require_confirmation=False):
         params = {
             'Amount': amount,
             'Currency': currency,
             'AccountId': account_id,
-            'Token': token
+            'Token': token,
+            'TrInitiatorCode': tr_initiator_code
         }
         if invoice_id is not None:
             params['InvoiceId'] = invoice_id
