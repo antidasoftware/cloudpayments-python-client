@@ -4,8 +4,8 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from .errors import CloudPaymentsError, PaymentError
-from .models import Transaction, Secure3d, Subscription, Order, Receipt
-from .utils import format_datetime, format_date
+from .models import Order, Receipt, Secure3d, Subscription, Transaction
+from .utils import format_date, format_datetime
 
 
 class CloudPayments(object):
@@ -272,7 +272,8 @@ class CloudPayments(object):
     def create_order(self, amount, currency, description, email=None,
                      send_email=None, require_confirmation=None,
                      invoice_id=None, account_id=None, phone=None,
-                     send_sms=None, send_whatsapp=None, culture_info=None):
+                     send_sms=None, send_whatsapp=None, culture_info=None,
+                     data=None):
         params = {
             'Amount': amount,
             'Currency': currency,
@@ -296,6 +297,8 @@ class CloudPayments(object):
             params['SendWhatsApp'] = send_whatsapp
         if culture_info is not None:
             params['CultureInfo'] = culture_info
+        if  data is not None:
+            params['JsonData'] = data
 
         response = self._send_request('orders/create', params)
 
