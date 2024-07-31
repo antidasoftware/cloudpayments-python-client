@@ -24,6 +24,7 @@ class CloudPayments(object):
 
         response = requests.post(self.URL + endpoint, json=params, auth=auth, 
                                  headers=headers)
+        response.raise_for_status()
         return response.json(parse_float=decimal.Decimal)
 
     def test(self, request_id=None):
