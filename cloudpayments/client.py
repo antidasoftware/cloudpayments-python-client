@@ -6,6 +6,7 @@ from requests.auth import HTTPBasicAuth
 from .errors import CloudPaymentsError, PaymentError
 from .models import Order, Receipt, Secure3d, Subscription, Transaction
 from .utils import format_date, format_datetime
+from .enums import WebhookType
 
 
 class CloudPayments(object):
